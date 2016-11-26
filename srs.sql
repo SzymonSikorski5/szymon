@@ -30,3 +30,11 @@ references uzytkownicy (u_id),
 foreign key (r_id)
 references rodzaje (r_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+create table zdjecia (
+z_id int not null auto_increment,
+z_sciezka varchar(255) not null,
+a_id int not null,
+primary key (z_id),
+foreign key (a_id)
+references aukcje (a_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
