@@ -7,13 +7,23 @@
 		<script src="js/srs.js"></script>
     </head>
     <body>
-		<form>
+		<form action="" method="POST">
 			<input type="text" id="" class="" name="email" required>
 			<input type="text" id="" class="" name="haslo" required>
-			<input type="submit" id="" class="" name="Zaloguj" value="Zaloguj">
+			<input type="submit" id="" class="" name="zaloguj" value="Zaloguj">
 		</form>
         <?php
-		
+            if($_SERVER["REQUEST_METHOD"] == "POST") {
+                session_start();
+                $submit = $_POST['zaloguj'];
+                $email = strip_tags($_POST['email']);
+                $haslo = strip_tags($_POST['haslo']);
+                if ($submit&&$email&&$haslo){
+                    $polacz = mysqli_connect('localhost','root','','srs') or die ('Wystąpił problem podczas łączenia z bazą');
+                    $logowanie = mysqli_query($polacz,"SELECT * FROM `uzytkownicy` WHERE `u_email`='".$email."'");
+                    include 'sesjaphp.php';
+                }
+            }
         ?>
     </body>
 </html>

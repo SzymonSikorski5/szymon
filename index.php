@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html ng-app="SrsApp">
     <head ng-controller="SrsHead">
         <meta charset="UTF-8">
@@ -14,7 +8,10 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        // put your code here
+            session_start();
+            if(isset($_SESSION['email'])){
+                echo $_SESSION['imie'];
+            }
         ?>
     </body>
 </html>
