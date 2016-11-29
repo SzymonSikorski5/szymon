@@ -15,13 +15,17 @@ r_id int not null auto_increment,
 r_rodzaj varchar(32) not null,
 primary key (r_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+INSERT INTO rodzaje (r_id, r_rodzaj) VALUES (1,'Aukcja klasyczna');
+INSERT INTO rodzaje (r_id, r_rodzaj) VALUES (2,'Aukcja z ceną minimalną');
+INSERT INTO rodzaje (r_id, r_rodzaj) VALUES (3,'Aukcja holenderska');
 create table aukcje (
 a_id int not null auto_increment,
 a_tytul varchar(49) not null,
 a_opis varchar(255) not null,
 a_zdjecia varchar(255),
+a_cenabazowa int,
 a_dodano datetime not null,
-a_wygasa datetime,
+a_czaswygasania datetime,
 u_id int not null,
 r_id int not null,
 primary key (a_id),
