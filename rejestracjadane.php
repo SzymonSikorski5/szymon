@@ -9,7 +9,7 @@
 	$nazwisko = strip_tags($_POST['nazwisko']);
 	if ($submit&&$email&&$nick&&$haslo&&$powtorzhaslo&&$imie&&$nazwisko){
 		if($haslo==$powtorzhaslo){
-			$polacz = mysqli_connect('localhost','root','','srs') or die ('Wystąpił problem podczas łączenia z bazą');
+                    include 'host.php';
 			$sprawdzemail = mysqli_query($polacz,"SELECT `u_email` FROM `uzytkownicy` WHERE `u_email`='".$email."'");
 			if(mysqli_num_rows($sprawdzemail)){
 				echo "Ten email jest już zajęty";
