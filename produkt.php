@@ -1,14 +1,23 @@
+<?php
+    include 'host.php';
+    $nraukcji=$_GET['a_id'];
+    $wybierzprodukt = mysqli_query($polacz,"SELECT * FROM aukcje WHERE a_id=$nraukcji");
+    $aukcja = mysqli_fetch_array($wybierzprodukt);
+    $autorid = $aukcja['u_id'];
+    $wybierzautora = mysqli_query($polacz,"SELECT * FROM uzytkownicy WHERE u_id=$autorid");
+    $autor = mysqli_fetch_array($wybierzautora);
+?>
 <html ng-app="SrsApp">
     <head ng-controller="SrsHead">
         <meta charset="UTF-8">
-        <title>{{Index}}</title>
+        <title>{{Produkt}}: <?php echo $aukcja['a_tytul']; ?></title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="js/srs.js"></script>
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/produkt.css">
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -62,13 +71,41 @@
         <br><br><br>
         <div class="container">
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <?php
-                        echo 'tutaj będzie ogłoszenie';
+                <div class="col-md-12">
+                    <h1><?php echo $aukcja['a_tytul']; ?></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Dodano przez: <?php echo $autor['u_nick']; ?></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Data dodania: <?php echo $aukcja['a_dodano']; ?></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p><h2>Szczegóły/opis przedmiotu aukcji</h2></p><br>
+                    <p><?php echo $aukcja['a_opis']; ?></p>
+                </div>
+                <div class="col-md-2">
+                    <?php 
+                        if($aukcja['r_id']==1){
+                            echo '<button class="btn btn-danger">Kup: '.$aukcja['a_cenabazowa'].' PLN</button>';
+                        }
+                        if($aukcja['r_id']==2){
+                            echo '<button class="btn btn-danger">Licytuj: '.$aukcja['a_cenabazowa'].' PLN</button><br><br>';
+                            echo '<button class="btn btn-danger">Kup teraz: '.$aukcja['a_cenabazowa'].' PLN</button>';
+                        }
+                        if($aukcja['r_id']==3){
+                            echo '<button class="btn btn-danger">Kup teraz: '.$aukcja['a_cenabazowa'].' PLN</button>';
+                        }
                     ?>
                 </div>
-                <div class="col-md-2"></div>
             </div>
         </div>
     </body>

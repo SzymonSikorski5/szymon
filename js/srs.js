@@ -4,6 +4,5 @@ angular.module('SrsApp', [])
             $scope.Dodaj = "SRS - Stwórz aukcję";
             $scope.Logowanie = "SRS - Logowanie";
             $scope.Rejestracja = "SRS - Rejestracja";
-})
-		.controller('SrsNawigacja', function($scope) {
+            $scope.Produkt = "SRS - Produkt";
 });

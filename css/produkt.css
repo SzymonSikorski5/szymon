@@ -1,4 +1,5 @@
 .aukcja{
+    background-color: red;
     margin-top: 20px;
 }
 .naglowek{
@@ -6,8 +7,4 @@
 }
 .informacje{
     padding-left: 5%;
-}
-a,a:active,a:hover,a:visited {
-    text-decoration: none;
-    color: black;
 }
