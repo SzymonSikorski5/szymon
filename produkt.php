@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include 'host.php';
     $nraukcji=$_GET['a_id'];
     $wybierzprodukt = mysqli_query($polacz,"SELECT * FROM aukcje WHERE a_id=$nraukcji");
@@ -6,6 +7,9 @@
     $autorid = $aukcja['u_id'];
     $wybierzautora = mysqli_query($polacz,"SELECT * FROM uzytkownicy WHERE u_id=$autorid");
     $autor = mysqli_fetch_array($wybierzautora);
+    $przebijajacy=$aukcja['a_zwyciezca'];
+    $licytujacy = mysqli_query($polacz,"SELECT * FROM uzytkownicy WHERE u_id=$przebijajacy");
+    $tenlicytujacy = mysqli_fetch_array($licytujacy);
 ?>
 <html ng-app="SrsApp">
     <head ng-controller="SrsHead">
@@ -48,7 +52,6 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php
-            session_start();
             if(isset($_SESSION['email'])){
                 echo $_SESSION['nick'].'<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -93,17 +96,28 @@
                     <p><?php echo $aukcja['a_opis']; ?></p>
                 </div>
                 <div class="col-md-2">
-                    <?php 
+                    
+                    <?php
+                        include 'zmianyczasunaskutektopnieniapokrywylodowej.php';
+                        if($aukcja['r_id']==2){
+                            echo '
+                                <form method="POST" action="licytuj.php?a_id='.$aukcja['a_id'].'&r_id='.$aukcja['r_id'].'">
+                                Kwota: <input type="text" name="kwota" placeholder="';if($aukcja['a_zwyciezca']!=0){echo ''.$tenlicytujacy['u_nick'].': ';}echo $aukcja['a_kwota'].' PLN"><br>
+                                <input type="submit" class="btn btn-danger" name="przebij" value="przebij!">
+                                </form>
+                            ';
+                        }
+                        echo'<a href="kup.php?a_id='.$aukcja['a_id'].'&r_id='.$aukcja['r_id'].'">';
                         if($aukcja['r_id']==1){
                             echo '<button class="btn btn-danger">Kup: '.$aukcja['a_cenabazowa'].' PLN</button>';
                         }
                         if($aukcja['r_id']==2){
-                            echo '<button class="btn btn-danger">Licytuj: '.$aukcja['a_cenabazowa'].' PLN</button><br><br>';
                             echo '<button class="btn btn-danger">Kup teraz: '.$aukcja['a_cenabazowa'].' PLN</button>';
                         }
                         if($aukcja['r_id']==3){
                             echo '<button class="btn btn-danger">Kup teraz: '.$aukcja['a_cenabazowa'].' PLN</button>';
                         }
+                        echo '</a>';
                     ?>
                 </div>
             </div>

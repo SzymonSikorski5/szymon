@@ -61,14 +61,22 @@
         </nav><br><br>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <?php
                         include 'host.php';
                         $aukcje = mysqli_query($polacz,"SELECT * FROM aukcje INNER JOIN uzytkownicy ON aukcje.u_id=uzytkownicy.u_id ORDER BY aukcje.a_id desc") or die ('nie udało się wyświetlić. Wróć tutaj za kilka minut.');
-                        while($wyswietl = mysqli_fetch_array($aukcje)){
-                            echo "<div class='aukcja'><div class='naglowek'><h3><a href='produkt.php?a_id=".$wyswietl['a_id']."'>".$wyswietl['a_tytul']."</a></h3> <h5>Cena: ".$wyswietl['a_cenabazowa']."</h5></div><br>";
-                            echo "<div class='informacje'> Dodał: ".$wyswietl['u_nick']." Data dodania: ".$wyswietl['a_dodano']."</div></div></br>";
+                        while($aukcja = mysqli_fetch_array($aukcje)){
+                            $nraukcji=$aukcja['a_id'];
+                            include 'zmianyczasunaskutektopnieniapokrywylodowej.php';
+                            if($aukcja['a_stanaukcji']==0){
+                                echo "<div class='aukcja'><div class='naglowek'><h3><a href='produkt.php?a_id=".$aukcja['a_id']."'>".$aukcja['a_tytul']."</a></h3> <h5>Cena: ".$aukcja['a_cenabazowa'];if($aukcja['r_id']==2){echo " Cena minimalna: ".$aukcja['a_kwota'];}echo"</h5></div><br>";
+                                echo "<div class='informacje'> Dodał: ".$aukcja['u_nick']." Data dodania: ".$aukcja['a_dodano']."</div></div></br>";
+                            }
                         }
                     ?>
                 </div>

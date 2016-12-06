@@ -69,6 +69,7 @@
                         Tytuł:<br><input type="text" id="" class="" name="tytul" required><br>
                         Opis:<br><textarea id="" class="" name="opis" required></textarea><br>
                         Zdjęcie:<br><input type="text" id="" class="" name="zdjecie" required><br>
+                        Cena minimalna:<br><input type="text" id="" class="" name="kwota" placeholder="Wymagane dla licytacji"><br>
                         Cena:<br><input type="text" id="" class="" name="cenabazowa" required><br>
                         Data wygaśnięcia:<br><input type="text" id="" class="" name="datawygasniecia"><br>
                         Wybierz typ aukcji:<br> 
@@ -86,6 +87,7 @@
                             $tytul = strip_tags($_POST['tytul']);
                             $opis = strip_tags($_POST['opis']);
                             $zdjecie = strip_tags($_POST['zdjecie']);
+                            $kwota = strip_tags($_POST['kwota']);
                             $cenabazowa = strip_tags($_POST['cenabazowa']);
                             $dodano = date("Y-m-d H:i:s");
                             $datawygasniecia = strip_tags($_POST['datawygasniecia']);
@@ -93,17 +95,20 @@
                             $u_id = $_SESSION['id'];
                             if ($r_id==1&&$submit&&$tytul&&$opis&&$zdjecie&&$cenabazowa&&$dodano&&$datawygasniecia){
                                 include 'host.php';
-                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','$u_id','$r_id')");
+                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
                                 header('location: index.php');
                             }
-                            if ($r_id==2&&$submit&&$tytul&&$opis&&$zdjecie&&$cenabazowa&&$dodano&&$datawygasniecia){
+                            if ($r_id==2&&$submit&&$tytul&&$opis&&$zdjecie&&$kwota&&$cenabazowa&&$dodano&&$datawygasniecia){
                                 include 'host.php';
-                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','$u_id','$r_id')");
+                                if($kwota==0){
+                                    echo 'No nie';
+                                }
+                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_kwota,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$kwota','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
                                 header('location: index.php');
                             }
                             if ($r_id==3&&$submit&&$tytul&&$opis&&$zdjecie&&$cenabazowa&&$dodano&&$datawygasniecia){
                                 include 'host.php';
-                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','$u_id','$r_id')");
+                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
                                 header('location: index.php');
                             }
                         }
