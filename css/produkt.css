@@ -3,8 +3,11 @@
     margin-top: 20px;
 }
 .naglowek{
-    padding-left: 5%;
+    padding-left: 20%;
 }
 .informacje{
-    padding-left: 5%;
+    padding-left: 20%;
+}
+.zdjecie{
+    width: 350px;
 }

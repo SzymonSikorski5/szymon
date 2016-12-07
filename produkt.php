@@ -40,7 +40,6 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="">Link <span class="sr-only">(current)</span></a></li>
         <li><a href="dodaj.php">Dodaj przedmiot</a></li>
       </ul>
       <form class="navbar-form navbar-left">
@@ -90,6 +89,11 @@
                             <h4>Data dodania: <?php echo $aukcja['a_dodano']; ?></h4>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo "<img class='zdjecie' src='".$aukcja['a_zdjecie']."'>";?>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <p><h2>Szczegóły/opis przedmiotu aukcji</h2></p><br>
@@ -119,6 +123,8 @@
                         }
                         echo '</a>';
                     ?>
+                    <br><br><br><br>
+                    <script id="cid0020000142107517861" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 215px;height: 350px;">{"handle":"projektprogramowanie","arch":"js","styles":{"a":"990000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"990000","l":"990000","m":"990000","n":"FFFFFF","p":"10","q":"990000","r":100,"usricon":0,"fwtickm":1}}</script>
                 </div>
             </div>
         </div>

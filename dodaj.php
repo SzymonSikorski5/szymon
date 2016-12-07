@@ -34,7 +34,6 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li><a href="">Link <span class="sr-only">(current)</span></a></li>
                   <li><a href="dodaj.php">Dodaj przedmiot</a></li>
                 </ul>
                 <form class="navbar-form navbar-left">
@@ -65,10 +64,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="" method="POST">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         Tytuł:<br><input type="text" id="" class="" name="tytul" required><br>
                         Opis:<br><textarea id="" class="" name="opis" required></textarea><br>
-                        Zdjęcie:<br><input type="text" id="" class="" name="zdjecie" required><br>
+                        Zdjęcie:<br><input type="file" name="zdjecie" id="" accept='image/*' required><br>
                         Cena minimalna:<br><input type="text" id="" class="" name="kwota" placeholder="Wymagane dla licytacji"><br>
                         Cena:<br><input type="text" id="" class="" name="cenabazowa" required><br>
                         Data wygaśnięcia:<br><input type="text" id="" class="" name="datawygasniecia"><br>
@@ -86,32 +85,38 @@
                             $submit = $_POST['dodaj'];
                             $tytul = strip_tags($_POST['tytul']);
                             $opis = strip_tags($_POST['opis']);
-                            $zdjecie = strip_tags($_POST['zdjecie']);
+                            $path = 'zdjecia/';
                             $kwota = strip_tags($_POST['kwota']);
                             $cenabazowa = strip_tags($_POST['cenabazowa']);
                             $dodano = date("Y-m-d H:i:s");
                             $datawygasniecia = strip_tags($_POST['datawygasniecia']);
                             $r_id = ($_POST['rodzaj']);
                             $u_id = $_SESSION['id'];
-                            if ($r_id==1&&$submit&&$tytul&&$opis&&$zdjecie&&$cenabazowa&&$dodano&&$datawygasniecia){
-                                include 'host.php';
-                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
-                                header('location: index.php');
-                            }
-                            if ($r_id==2&&$submit&&$tytul&&$opis&&$zdjecie&&$kwota&&$cenabazowa&&$dodano&&$datawygasniecia){
-                                include 'host.php';
-                                if($kwota==0){
-                                    echo 'No nie';
+                            
+                            $zdjecie = $path.basename($_FILES['zdjecie']['name']);
+                            move_uploaded_file($_FILES['zdjecie']['tmp_name'], $zdjecie);
+                                    if ($r_id==1&&$submit&&$tytul&&$opis&&$zdjecie&&$cenabazowa&&$dodano&&$datawygasniecia){
+                                        include 'host.php';
+                                        $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
+                                        header('location: index.php');
+                                        echo 'gratuluję';
+                                    }
+                                    if ($r_id==2&&$submit&&$tytul&&$opis&&$zdjecie&&$kwota&&$cenabazowa&&$dodano&&$datawygasniecia){
+                                        include 'host.php';
+                                        if($kwota==0){
+                                            echo 'No nie';
+                                        }
+                                        $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_kwota,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$kwota','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
+                                        header('location: index.php');
+                                        echo 'gratuluję';
+                                    }
+                                    if ($r_id==3&&$submit&&$tytul&&$opis&&$zdjecie&&$cenabazowa&&$dodano&&$datawygasniecia){
+                                        include 'host.php';
+                                        $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
+                                        header('location: index.php');
+                                        echo 'gratuluję';
+                                    }
                                 }
-                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_kwota,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$kwota','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
-                                header('location: index.php');
-                            }
-                            if ($r_id==3&&$submit&&$tytul&&$opis&&$zdjecie&&$cenabazowa&&$dodano&&$datawygasniecia){
-                                include 'host.php';
-                                $query = mysqli_query($polacz,"INSERT INTO aukcje (a_tytul,a_opis,a_zdjecie,a_cenabazowa,a_dodano,a_czaswygasania,a_minelo,u_id,r_id) VALUES ('$tytul','$opis','$zdjecie','$cenabazowa','$dodano','$datawygasniecia','0','$u_id','$r_id')");
-                                header('location: index.php');
-                            }
-                        }
                     ?>
                 </div>
             </div>
