@@ -1,3 +1,6 @@
+<?php 
+            
+        ?>
 <html ng-app="SrsApp">
     <head ng-controller="SrsHead">
         <meta charset="UTF-8">
@@ -31,9 +34,9 @@
       </ul>
       <form action="" method="POST" class="navbar-form navbar-left">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Szukaj" name="szukaj">
+          <input type="text" class="form-control" placeholder="Szukaj" name="szukajj">
         </div>
-        <button type="submit" name="wyszukaj" class="btn btn-danger">Szukaj</button>
+        <input type="submit" name="wyszukajj" class="btn btn-danger" value="Szukaj">
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -58,21 +61,7 @@
     </div>
   </div>
         </nav><br><br>
-        <?php 
-            include 'host.php';
-            if($_SERVER["REQUEST_METHOD"] == "POST") {
-                $wyszukaj=$_POST['wyszukaj'];
-                if(isset($wyszukaj)){
-                    $czywyszukaj=1;
-                    $szukaj = strip_tags($_POST['szukaj']);
-                    
-                    
-                }
-                else{
-                    $czywyszukaj=0;
-                }
-            }
-        ?>
+        
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -82,32 +71,31 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <?php
-                        
+                    include 'host.php';
+            if($_SERVER["REQUEST_METHOD"] == "POST") {
+                $wyszukaj=$_POST['wyszukajj'];
+                if(isset($wyszukaj)){
+                    $czywyszukaj=1;
+                    $szukaj = strip_tags($_POST['szukajj']);
+                }
+                
+            }
+            else{
+                    $czywyszukaj=0;
+                }
                         $aukcje = mysqli_query($polacz,"SELECT * FROM aukcje INNER JOIN uzytkownicy ON aukcje.u_id=uzytkownicy.u_id ORDER BY aukcje.a_id desc") or die ('nie udało się wyświetlić. Wróć tutaj za kilka minut.');
+                        if($czywyszukaj>0){
+                            $aukcje = mysqli_query($polacz,"SELECT * FROM aukcje INNER JOIN uzytkownicy ON aukcje.u_id=uzytkownicy.u_id WHERE aukcje.a_tytul LIKE '%$szukaj%' ORDER BY aukcje.a_id desc") or die ('nie udało się wyświetlić. Wróć tutaj za kilka minut.');
+                        }
                         
                         while($aukcja = mysqli_fetch_array($aukcje)){
                             $nraukcji=$aukcja['a_id'];
-                            
-                            if($czywyszukaj==1){
-                                $kolejkawyszukiwania = mysqli_query($polacz,"SELECT * FROM aukcje WHERE `a_tytul` OR `a_opis` LIKE '%$szukaj%' ORDER BY a_id desc") or die ('nie udało się wyświetlić kolejki wyszukiwania.');
-                                while($wynikiwyszukiwania = mysqli_fetch_array($kolejkawyszukiwania)){
-                                    $nrwyszukaj=$wynikiwyszukiwania['a_id'];
-                                    
-                                    if($nraukcji==$nrwyszukaj){
-                                        echo'brawo';
+                            include 'zmianyczasunaskutektopnieniapokrywylodowej.php';
+
                                         if($aukcja['a_stanaukcji']==0){
                                             echo "<div class='aukcja'><table><tr><td><img class='zdjecie' src='".$aukcja['a_zdjecie']."'></td><td><div class='naglowek'><h3><a href='produkt.php?a_id=".$aukcja['a_id']."'>".$aukcja['a_tytul']."</a></h3> <h5>Cena: ".$aukcja['a_cenabazowa'];if($aukcja['r_id']==2){echo " Cena minimalna: ".$aukcja['a_kwota'];}echo"</h5></div><br>";
                                             echo "<div class='informacje'> Dodał: ".$aukcja['u_nick']." Data dodania: ".$aukcja['a_dodano']."</div></td></tr></table></div></br>";
                                         }
-                                    }
-                                }
-                            }
-                            else{
-                                if($aukcja['a_stanaukcji']==0){
-                                        echo "<div class='aukcja'><table><tr><td><img class='zdjecie' src='".$aukcja['a_zdjecie']."'></td><td><div class='naglowek'><h3><a href='produkt.php?a_id=".$aukcja['a_id']."'>".$aukcja['a_tytul']."</a></h3> <h5>Cena: ".$aukcja['a_cenabazowa'];if($aukcja['r_id']==2){echo " Cena minimalna: ".$aukcja['a_kwota'];}echo"</h5></div><br>";
-                                        echo "<div class='informacje'> Dodał: ".$aukcja['u_nick']." Data dodania: ".$aukcja['a_dodano']."</div></td></tr></table></div></br>";
-                                    }
-                            }
                         }
                         
                     ?>
